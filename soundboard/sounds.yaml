@@ -6,7 +6,6 @@
   title: "There's that fag talk we talked about"
   url: "http://www.soundboard.com/mediafiles/od/ODg0Mzc0OTE3ODg0NDAy_31yz2tLAVW0.mp3"
 
-
 "nope":
   title: "nope"
   url: "http://www.myinstants.com/media/sounds/engineer_no01.mp3"
@@ -23,3 +22,11 @@
 "price_is_right":
   title: ""
   url: "http://www.myinstants.com/media/sounds/the-price-is-right-losing-horn.mp3"
+
+"420":
+  title: "Smoke weed everyday"
+  url: "http://www.myinstants.com/media/sounds/snoop-dogg-smoke-weed-everyday.mp3"
+
+"hold_up":
+  title: "Hold up ...."
+  url: "files/hold_up.ogg"

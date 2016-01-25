@@ -40,8 +40,12 @@ if args.key:
       key = ak
 
 
+    if not key in sounds:
+      print "sound %s not found" % (key)
+      sys.exit(1)
 
     s = sounds[key]
+
     print s['title']
     os.system('mplayer ' + s['url'] + '&> /dev/null')
 

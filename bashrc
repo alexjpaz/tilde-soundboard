@@ -8,7 +8,9 @@ _soundboard()
   COMPREPLY=( $(compgen -W "$(soundboard --list | xargs)" -- $cur) )
 }
 
-complete -F _soundboard soundboard
-complete -F _soundboard sb
+if [ -n "$BASH" ]; then
+  complete -F _soundboard soundboard
+  complete -F _soundboard sb
+fi
 
 alias sb='soundboard --key'

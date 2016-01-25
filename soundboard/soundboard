@@ -8,23 +8,40 @@ package_directory = os.path.dirname(os.path.realpath(os.path.abspath(__file__)))
 os.chdir(package_directory);
 
 parser = argparse.ArgumentParser(description='Play some sounds')
-parser.add_argument('--key', help='sound to play')
+parser.add_argument('--key', nargs='+', help='sound to play')
 parser.add_argument('--list', help='lists sounds', action="store_true")
 
 args = parser.parse_args()
 
 sounds = {}
+aliases = {}
 
 with open("./sounds.yaml", 'r') as stream:
   sounds = yaml.load(stream)
 
-if(args.list):
+with open("./aliases.yaml", 'r') as stream:
+  aliases = yaml.load(stream)
 
+
+if(args.list):
+  for a in aliases.keys():
+    print "%s" % (a)
   for s in sounds.keys():
     print "%s" % (s)
 
-if(args.key):
-  s = sounds[args.key]
-  print s['title']
-  os.system('mplayer ' + s['url'] + '&> /dev/null')
+
+if args.key:
+  for ak in args.key:
+    key = None
+
+    if ak in aliases:
+      key = aliases[ak]
+    else:
+      key = ak
+
+
+
+    s = sounds[key]
+    print s['title']
+    os.system('mplayer ' + s['url'] + '&> /dev/null')
 

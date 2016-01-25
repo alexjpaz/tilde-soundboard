@@ -30,3 +30,11 @@
 "hold_up":
   title: "Hold up ...."
   url: "files/hold_up.ogg"
+
+"nyan":
+  title: "NYAN CAT"
+  url: "http://www.nyan.cat/music/original.mp3"
+
+"themes/guile":
+  title: "Guile's theme"
+  url: "files/guiles_theme.mp3"

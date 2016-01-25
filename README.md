@@ -1,4 +1,8 @@
 ```
+brew install mplayer
+```
+
+```
 git clone git@bitbucket.org:alexjpaz/tilde-soundboard.git ~/.tidle/plugins/tidle-soundboard
 ```
 

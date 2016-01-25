@@ -1,4 +1,7 @@
 PLUGIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+if [ -n "$ZSH_VERSION" ]; then
+  PLUGIN_DIR="$( cd "$( dirname "${(%):-%N}" )" && pwd )"
+fi
 
 export PATH=$PATH:$PLUGIN_DIR/bin
 
@@ -8,9 +11,12 @@ _soundboard()
   COMPREPLY=( $(compgen -W "$(soundboard --list | xargs)" -- $cur) )
 }
 
-if [ -n "$BASH" ]; then
-  complete -F _soundboard soundboard
-  complete -F _soundboard sb
+if [ -n "$ZSH_VERSION" ]; then
+  autoload bashcompinit
+  bashcompinit
 fi
+
+complete -F _soundboard soundboard
+complete -F _soundboard sb
 
 alias sb='soundboard --key'

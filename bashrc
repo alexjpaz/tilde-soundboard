@@ -1,13 +1,15 @@
-DIR=`dirname $0`
+PLUGIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-paz-soundboard() {
-  python $DIR/soundboard/soundboard.py $@
-}
+export PATH=$PATH:$PLUGIN_DIR/bin
 
-_paz-soundboard()
+
+_soundboard()
 {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(paz-soundboard --list | xargs)" -- $cur) )
+  COMPREPLY=( $(compgen -W "$(soundboard --list | xargs)" -- $cur) )
 }
 
-complete -F _paz-soundboard paz-soundboard
+complete -F _soundboard soundboard
+complete -F _soundboard sb
+
+alias sb='soundboard --key'

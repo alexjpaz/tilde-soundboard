@@ -20,7 +20,7 @@ with open("./sounds.yaml", 'r') as stream:
 if(args.list):
 
   for s in sounds.keys():
-    print "%s - %s" % (s, sounds[s]['title'])
+    print "%s" % (s)
 
 if(args.key):
   s = sounds[args.key]

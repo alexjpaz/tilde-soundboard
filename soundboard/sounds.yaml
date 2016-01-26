@@ -46,3 +46,8 @@
 "do_it":
   title: "DO IT! JUST DO IT"
   url: "http://www.myinstants.com/media/sounds/just-do-it.mp3"
+
+"thats-fucking-teamwork":
+  title: "Tenacious D - Thats fucking team work"
+  nsfw: true
+  url: "files/tenascious_d_nsfw_thats_fucking_teamwork.ogg"

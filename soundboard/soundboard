@@ -47,5 +47,5 @@ if args.key:
     s = sounds[key]
 
     print s['title']
-    os.system('mplayer ' + s['url'] + '&> /dev/null')
+    os.system('./play-sound.sh ' + s['url'] + '&> /dev/null')
 

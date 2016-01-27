@@ -47,5 +47,6 @@ if args.key:
     s = sounds[key]
 
     print s['title']
+    print s['url']
     os.system('./play-sound.sh ' + s['url'] + '&> /dev/null')
 

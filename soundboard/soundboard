@@ -3,6 +3,11 @@ import os, sys
 import yaml
 import argparse
 
+import urllib2
+
+class Expando(object):
+  pass
+
 package_directory = os.path.dirname(os.path.realpath(os.path.abspath(__file__)))
 
 os.chdir(package_directory);
@@ -10,17 +15,48 @@ os.chdir(package_directory);
 parser = argparse.ArgumentParser(description='Play some sounds')
 parser.add_argument('--key', nargs='+', help='sound to play')
 parser.add_argument('--list', help='lists sounds', action="store_true")
+parser.add_argument('--download', help='download sounds', action="store_true")
 
 args = parser.parse_args()
 
 sounds = {}
 aliases = {}
 
+def download(key, sound):
+    try:
+      os.makedirs('/tmp/soundboard')
+    except OSError as exc:  # Python >2.5
+      if exc.errno == errno.EEXIST and os.path.isdir(path):
+        pass
+      else:
+        raise
+
+    fw = open('/tmp/soundboard/%s' % (key), 'w')
+    url = sounds[s]['url']
+    print 'downloading %s' % (s)
+
+    try:
+      response = urllib2.urlopen(url)
+      fw.write(response.read())
+    except urllib2.HTTPError, e:
+          print e.fp.read()
+
+
+
+
+
 with open("./sounds.yaml", 'r') as stream:
   sounds = yaml.load(stream)
 
 with open("./aliases.yaml", 'r') as stream:
   aliases = yaml.load(stream)
+
+if(args.download):
+  for s in sounds.keys():
+    url = sounds[s]['url']
+    print 'downloading %s' % (s)
+    response = urllib2.urlopen(url)
+    body = response.read()
 
 
 if(args.list):

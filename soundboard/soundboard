@@ -3,6 +3,11 @@ import os, sys
 import yaml
 import argparse
 
+import urllib2
+
+class Expando(object):
+  pass
+
 package_directory = os.path.dirname(os.path.realpath(os.path.abspath(__file__)))
 
 os.chdir(package_directory);
@@ -10,17 +15,58 @@ os.chdir(package_directory);
 parser = argparse.ArgumentParser(description='Play some sounds')
 parser.add_argument('--key', nargs='+', help='sound to play')
 parser.add_argument('--list', help='lists sounds', action="store_true")
+parser.add_argument('--download', help='download sounds', action="store_true")
+parser.add_argument('--clean', help='download sounds', action="store_true")
 
 args = parser.parse_args()
 
 sounds = {}
 aliases = {}
 
+def play(key, sound):
+  print sound['title']
+  print sound['url']
+  print grabfile(key, sound)
+  os.system('./play-sound.sh ' + grabfile(key, sound) + '&> /dev/null')
+
+def grabfile(key, sound):
+    path = '/tmp/soundboard/%s' % (key)
+    soundpath = path + '/sound.file'
+
+    if os.path.exists(soundpath):
+      return soundpath
+
+    try:
+      os.makedirs(path)
+    except OSError as exc:  # Python >2.5
+      print exc
+
+    url = sound['url']
+    print 'downloading %s' % (s)
+
+    try:
+      req = urllib2.Request(url, headers={'User-Agent' : "Magic Browser"})
+      con = urllib2.urlopen( req )
+      fw = open(soundpath, 'w')
+      fw.write(con.read())
+      fw.close()
+    except urllib2.HTTPError, e:
+        print 'something went wrong :(', e
+        return sound['url']
+
+    return path + "/sound.mp3"
+
+
+
 with open("./sounds.yaml", 'r') as stream:
   sounds = yaml.load(stream)
 
 with open("./aliases.yaml", 'r') as stream:
   aliases = yaml.load(stream)
+
+if(args.download):
+  for s in sounds.keys():
+    grabfile(s, sounds[s])
 
 
 if(args.list):
@@ -45,8 +91,8 @@ if args.key:
       sys.exit(1)
 
     s = sounds[key]
+    play(key, s)
 
-    print s['title']
-    print s['url']
-    os.system('./play-sound.sh ' + s['url'] + '&> /dev/null')
-
+if args.clean:
+  import shutil
+  shutil.rmtree('/tmp/soundboard')

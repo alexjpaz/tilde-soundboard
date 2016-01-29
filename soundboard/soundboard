@@ -47,7 +47,6 @@ def grabfile(key, sound):
       print exc
 
     url = sound['url']
-    print 'downloading %s' % (s)
 
     try:
       req = urllib2.Request(url, headers={'User-Agent' : "Magic Browser"})
@@ -59,7 +58,7 @@ def grabfile(key, sound):
         print 'something went wrong :(', e
         return sound['url']
 
-    return path + "/sound.mp3"
+    return soundpath
 
 
 

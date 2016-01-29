@@ -19,4 +19,4 @@ fi
 complete -F _soundboard soundboard
 complete -F _soundboard sb
 
-alias sb='soundboard --key'
+alias sb='soundboard'

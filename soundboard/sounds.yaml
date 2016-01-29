@@ -24,11 +24,12 @@
 
 "snoop_dogg/smoke_weed_everyday":
   title: "Smoke weed everyday"
+  artUrl: "art/snoop2.acii"
   url: "http://www.myinstants.com/media/sounds/snoop-dogg-smoke-weed-everyday.mp3"
 
 "hold_up":
   title: "Hold up ...."
-  url: "files/hold_up.ogg"
+  url: "http://cdn.rawgit.com/alexjpaz/tilde-soundboard/files/hold_up.ogg"
 
 "nyan":
   title: "NYAN CAT"
@@ -36,7 +37,7 @@
 
 "themes/guile":
   title: "Guile's theme"
-  url: "files/guiles_theme.mp3"
+  url: "http://cdn.rawgit.com/alexjpaz/tilde-soundboard/files/guiles_theme.mp3"
 
 "kaaahn":
   title: "KAAAAAAAAAAAAHN!"
@@ -105,7 +106,7 @@
 "thats-fucking-teamwork":
   title: "Tenacious D - Thats fucking team work"
   nsfw: true
-  url: "files/tenascious_d_nsfw_thats_fucking_teamwork.ogg"
+  url: "http://cdn.rawgit.com/alexjpaz/tilde-soundboard/files/tenascious_d_nsfw_thats_fucking_teamwork.ogg"
 
 "obey-your-master":
   title: "Obey your  master"

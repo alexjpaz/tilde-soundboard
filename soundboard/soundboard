@@ -24,10 +24,14 @@ args = parser.parse_args()
 sounds = {}
 aliases = {}
 
-def play(key, sound):
+def display(key, sound):
   print sound['title']
   print sound['url']
-  print grabfile(key, sound)
+  if sound['artUrl']:
+    os.system('cat %s' % sound['artUrl'])
+
+def play(key, sound):
+  display(key, sound)
   os.system('./play-sound.sh ' + grabfile(key, sound) + '&> /dev/null')
 
 def grabfile(key, sound):

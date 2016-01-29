@@ -36,6 +36,12 @@ soundboard hold_up
 soundboard --random
 ```
 
+## announce someone's name
+
+```
+soundboard --name "John Cena"
+```
+
 ## updating
 
 ```

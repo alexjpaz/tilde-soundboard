@@ -28,7 +28,7 @@ def display(key, sound):
   print sound['title']
   print sound['url']
   if sound['artUrl']:
-    os.system('cat %s' % sound['artUrl'])
+    os.system('head -$(tput lines) %s' % sound['artUrl'])
 
 def play(key, sound):
   display(key, sound)

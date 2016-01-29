@@ -120,3 +120,11 @@
 "lala":
   title: "Lovin' you..."
   url: "http://www.myinstants.com/media/sounds/lalalalala_1.mp3"
+
+"chop/john_cena/start":
+  title: "Chop John Cena (start)"
+  url: "http://cdn.rawgit.com/alexjpaz/tilde-soundboard/files/john_cena/start.ogg"
+
+"chop/john_cena/end":
+  title: "Chop John Cena (end)"
+  url: "http://cdn.rawgit.com/alexjpaz/tilde-soundboard/files/john_cena/end.ogg"

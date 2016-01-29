@@ -20,6 +20,7 @@ parser.add_argument('--clean', help='download sounds', action="store_true")
 parser.add_argument('--update', help='update', action="store_true")
 parser.add_argument('--version', help='show version', action="store_true")
 parser.add_argument('--random', help='play random sound', action="store_true")
+parser.add_argument('--name', help='play name')
 
 
 args = parser.parse_args()
@@ -33,7 +34,10 @@ def display(key, sound):
   if 'artUrl' in sound:
     os.system('head -$(tput lines) %s' % sound['artUrl'])
 
-def play(key, sound):
+def play(key, sound=None):
+  if sound is None:
+    sound = sounds[key]
+
   display(key, sound)
   os.system('./play-sound.sh ' + grabfile(key, sound) + '&> /dev/null')
 
@@ -114,4 +118,11 @@ if args.random:
   import random
   key = random.choice(sounds.keys())
   play(key, sounds[key])
+
+
+if args.name:
+  play('chop/john_cena/start')
+  os.system('say ' + args.name)
+  play('chop/john_cena/end')
+
 

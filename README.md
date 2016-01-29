@@ -42,6 +42,8 @@ soundboard --random
 soundboard --update
 ```
 
+Note: If this command doesn't not work try doing `git pull` 
+
 # Configuration
 
 ## sounds.yml

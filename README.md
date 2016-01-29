@@ -30,6 +30,12 @@ Tab completion is also available.
 soundboard hold_up
 ```
 
+## play a random sound
+
+```
+soundboard --random
+```
+
 ## updating
 
 ```

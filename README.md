@@ -1,4 +1,4 @@
-# installing
+# Installing
 
 ```
 brew install mplayer
@@ -14,6 +14,8 @@ Add the following to your `.bashrc`
 source ~/.tilde/plugins/tilde-soundboard/bashrc
 ```
 
+# Actions
+
 ## list sounds
 
 ```
@@ -22,20 +24,36 @@ soundboard --list
 
 Tab completion is also available.
 
-
 ## play a sound
 
 ```
-soundboard --key hold_up
+soundboard hold_up
 ```
+
+## updating
+
+```
+soundboard --update
+```
+
+# Configuration
 
 ## sounds.yml
 
 The this file contains the sounds to be used by the sound board. There must be a url for the player to reference.
 
+
 ## aliases.yml
 
 Alias to a sound in sounds.yml
+
+# Art
+
+You can use the service http://www.text-image.com/convert/ascii.html to convert pictures to ascii.
+
+Then you can add an `artUrl` to the ascii text file
+
+# Contributing
 
 ## Contributing files
 

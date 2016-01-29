@@ -27,7 +27,7 @@ aliases = {}
 def display(key, sound):
   print sound['title']
   print sound['url']
-  if sound['artUrl']:
+  if 'artUrl' in sound:
     os.system('head -$(tput lines) %s' % sound['artUrl'])
 
 def play(key, sound):

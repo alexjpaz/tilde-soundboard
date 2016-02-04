@@ -67,7 +67,29 @@ def grabfile(key, sound):
 
     return soundpath
 
+def which(program):
+  def executable(fpath):
+    return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+  
+  fpath, fname = os.path.split(program)
+  if fpath:
+    if executable(program):
+      return program
+  else:
+    for path in os.environ["PATH"].split(os.pathsep):
+      path = path.strip('"')
+      fpath = os.path.join(path, program)
+      if executable(fpath):
+        return fpath
+  return None
 
+  
+def say(message):
+  if which('say'):
+    os.system('say ' + message)
+  else:
+    os.system('espeak "{}"'.format(message))
+    
 
 with open("./sounds.yaml", 'r') as stream:
   sounds = yaml.load(stream)
@@ -119,10 +141,9 @@ if args.random:
   key = random.choice(sounds.keys())
   play(key, sounds[key])
 
-
 if args.name:
   play('chop/john_cena/start')
-  os.system('say ' + args.name)
+  say(args.name)
   play('chop/john_cena/end')
 
 

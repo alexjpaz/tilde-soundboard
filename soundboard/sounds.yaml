@@ -132,3 +132,7 @@
 "my_heart":
   title: "My Heart Will Go On"
   url: "http://www.myinstants.com/media/sounds/my-heart-will-go-on.mp3"
+
+"gondor":
+  title: "The Horn of Gondor"
+  url: "https://raw.githubusercontent.com/alexjpaz/tilde-soundboard/files/the_horn_of_gondor.mp3"

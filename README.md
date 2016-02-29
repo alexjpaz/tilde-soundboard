@@ -3,6 +3,7 @@
 Clone the repository 
 ```
 git clone https://github.com/alexjpaz/tilde-soundboard.git ~/.tilde/plugins/tilde-soundboard
+git checkout bash
 ```
 
 Install a media player

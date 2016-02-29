@@ -1,149 +1,84 @@
-#!/usr/bin/env python
-import os, sys
-import yaml
-import argparse
+#!/bin/bash
 
-import urllib2
+#set -x
 
-class Expando(object):
-  pass
+CMD=$1
 
-package_directory = os.path.dirname(os.path.realpath(os.path.abspath(__file__)))
+if [ -z "$2" ]; then
+  CMD=play
+  ARGS=$1
+else
+  shift
+  ARGS=$@
+fi
 
-os.chdir(package_directory);
+SOUNDBOARD_API_KEY=$SOUNDBOARD_API_KEY
+SOUNDBOARD_API_URL="https://iklx0jakwe.execute-api.us-east-1.amazonaws.com/prod"
+SOUNDBOARD_MEDIA_BASEURL="http://soundboard.alexjpaz.com.s3-website-us-east-1.amazonaws.com"
+SOUNDBOARD_PLAYER=mplayer
 
-parser = argparse.ArgumentParser(description='Play some sounds')
-parser.add_argument('key', nargs='*', metavar='key', help='sound to play')
-parser.add_argument('--list', help='lists sounds', action="store_true")
-parser.add_argument('--download', help='download sounds', action="store_true")
-parser.add_argument('--clean', help='download sounds', action="store_true")
-parser.add_argument('--update', help='update', action="store_true")
-parser.add_argument('--version', help='show version', action="store_true")
-parser.add_argument('--random', help='play random sound', action="store_true")
-parser.add_argument('--name', help='play name')
+_requires_api_key() {
+  if [ -z "$SOUNDBOARD_API_KEY" ]; then
+    echo "You must supply an api key! export SOUNDBOARD_API_KEY=<API_KEY>"
+    exit 2
+  fi
+}
 
+reindex() {
+  _requires_api_key
+  curl -X POST \
+    -H "x-api-key:${SOUNDBOARD_API_KEY}" \
+    'https://iklx0jakwe.execute-api.us-east-1.amazonaws.com/prod/reindex'
+}
 
-args = parser.parse_args()
+list() {
+  curl -s ${SOUNDBOARD_MEDIA_BASEURL}/index
+}
 
-sounds = {}
-aliases = {}
+play() {
+  FILE=$(mktemp /tmp/soundboard.XXXX)
+  curl -s -L -o ${FILE} ${SOUNDBOARD_MEDIA_BASEURL}/${ARGS}
+  ${SOUNDBOARD_PLAYER} ${FILE}
+}
 
-def display(key, sound):
-  print sound['title']
-  print sound['url']
-  if 'artUrl' in sound:
-    os.system('head -$(tput lines) %s' % sound['artUrl'])
+upload() {
+  _requires_api_key
+  local name=$1
+  local file=$2
 
-def play(key, sound=None):
-  if sound is None:
-    sound = sounds[key]
+  ContentType='application/ogg'
 
-  display(key, sound)
-  os.system('./play-sound.sh ' + grabfile(key, sound) + '&> /dev/null')
+  URL=$(curl -s -X PUT \
+    -H "x-api-key:${SOUNDBOARD_API_KEY}" \
+    "${SOUNDBOARD_API_URL}/upload?key=${name}&ContentType=${ContentType}")
 
-def grabfile(key, sound):
-    path = '/tmp/soundboard/%s' % (key)
-    soundpath = path + '/sound.file'
+  URL=$(echo $URL | tr -d '"')
 
-    if os.path.exists(soundpath):
-      return soundpath
+  curl -X PUT --progress-bar \
+    -H "Content-Type: ${ContentType}" \
+    -T $file \
+    ${URL}
+}
 
-    try:
-      os.makedirs(path)
-    except OSError as exc:  # Python >2.5
-      print exc
+redirect() {
+  _requires_api_key
+  local name=$1
+  local redirectUrl=$2
 
-    url = sound['url']
+  ContentType='text/plain'
 
-    try:
-      req = urllib2.Request(url, headers={'User-Agent' : "Magic Browser"})
-      con = urllib2.urlopen( req )
-      fw = open(soundpath, 'w')
-      fw.write(con.read())
-      fw.close()
-    except urllib2.HTTPError, e:
-        print 'something went wrong :(', e
-        return sound['url']
+  URL=$(curl -s -X PUT \
+    -H "x-api-key:${SOUNDBOARD_API_KEY}" \
+    "${SOUNDBOARD_API_URL}/upload?ContentType=${ContentType}&key=${name}&redirectUrl=${redirectUrl}")
 
-    return soundpath
+  URL=$(echo $URL | tr -d '"')
 
-def which(program):
-  def executable(fpath):
-    return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
-  
-  fpath, fname = os.path.split(program)
-  if fpath:
-    if executable(program):
-      return program
-  else:
-    for path in os.environ["PATH"].split(os.pathsep):
-      path = path.strip('"')
-      fpath = os.path.join(path, program)
-      if executable(fpath):
-        return fpath
-  return None
-
-  
-def say(message):
-  if which('say'):
-    os.system('say ' + message)
-  else:
-    os.system('espeak "{}"'.format(message))
-    
-
-with open("./sounds.yaml", 'r') as stream:
-  sounds = yaml.load(stream)
-
-with open("./aliases.yaml", 'r') as stream:
-  aliases = yaml.load(stream)
-
-if(args.download):
-  for s in sounds.keys():
-    grabfile(s, sounds[s])
+  curl -X PUT \
+    -H "x-amz-website-redirect-location: ${redirectUrl}" \
+    -H "Content-Type: text/plain" \
+    --data ${redirectUrl} \
+    ${URL}
+}
 
 
-if(args.list):
-  for a in aliases.keys():
-    print "%s" % (a)
-  for s in sounds.keys():
-    print "%s" % (s)
-
-
-if args.key:
-  for ak in args.key:
-    key = None
-
-    if ak in aliases:
-      key = aliases[ak]
-    else:
-      key = ak
-
-
-    if not key in sounds:
-      print "sound %s not found" % (key)
-      sys.exit(1)
-
-    s = sounds[key]
-    play(key, s)
-
-if args.clean:
-  import shutil
-  shutil.rmtree('/tmp/soundboard')
-
-if args.version:
-  os.system('git describe --tags')
-
-if args.update:
-  os.system('git pull')
-
-if args.random:
-  import random
-  key = random.choice(sounds.keys())
-  play(key, sounds[key])
-
-if args.name:
-  play('chop/john_cena/start')
-  say(args.name)
-  play('chop/john_cena/end')
-
-
+$CMD $ARGS

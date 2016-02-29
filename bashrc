@@ -8,7 +8,7 @@ export PATH=$PATH:$PLUGIN_DIR/bin
 _soundboard()
 {
   local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(soundboard --list | xargs)" -- $cur) )
+  COMPREPLY=( $(compgen -W "$(soundboard list all| xargs)" -- $cur) )
 }
 
 if [ -n "$ZSH_VERSION" ]; then

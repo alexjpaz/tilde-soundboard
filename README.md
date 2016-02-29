@@ -29,6 +29,8 @@ soundboard list all
 
 Tab completion is also available.
 
+You can also view the [index file](http://soundboard.alexjpaz.com.s3-website-us-east-1.amazonaws.com/index) in your browser 
+
 ## play a sound
 
 ```

@@ -41,6 +41,14 @@ play() {
   ${SOUNDBOARD_PLAYER} ${FILE}
 }
 
+upload_youtube() {
+  local name=$1
+  local url=$2
+  FILE=$(mktemp /tmp/soundboard.XXXX)
+  youtube-dl -o $FILE $2
+  upload $name $FILE
+}
+
 upload() {
   _requires_api_key
   local name=$1

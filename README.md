@@ -19,33 +19,40 @@ source ~/.tilde/plugins/tilde-soundboard/bashrc
 export SOUNDBOARD_API_KEY=<API_KEY>
 ```
 
-# Actions
+# Soundboard bash client:
 
-## list sounds
-
+You will need an API key
 ```
-soundboard list all
-```
-
-Tab completion is also available.
-
-You can also view the [index file](http://soundboard.alexjpaz.com.s3-website-us-east-1.amazonaws.com/index) in your browser 
-
-## play a sound
-
-```
-soundboard hold_up
+export SOUNDBOARD_API_KEY=<API_KEY>
 ```
 
-## upload a sound
+## Play sound
+```
+soundboard <sound>
+```
+
+## Upload sound
 ```
 soundboard upload <key> <file>
 ```
 
-## upload a sound (redirect)
+## Redirect sound to a url
 ```
 soundboard redirect <key> <url>
 ```
+The url can be relative to the soundboard bucket
 
-The url can be relative to the soundboard filestore
+## Upload youtube sound
+```
+soundboard upload_youtube <key> <youtube_url>
+```
+Requires [https://github.com/rg3/youtube-dl](youtube-dl)
 
+## List sounds
+```
+soundboard list all
+```
+Or you can view the index files
+CSV: http://soundboard.alexjpaz.com.s3-website-us-east-1.amazonaws.com/index
+JSON: http://soundboard.alexjpaz.com.s3-website-us-east-1.amazonaws.com/index
+WEB: http://soundboard.alexjpaz.com.s3-website-us-east-1.amazonaws.com/index.html

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -x
+set -x
 
 CMD=$1
 
@@ -28,7 +28,7 @@ reindex() {
   _requires_api_key
   curl -X POST \
     -H "x-api-key:${SOUNDBOARD_API_KEY}" \
-    'https://iklx0jakwe.execute-api.us-east-1.amazonaws.com/prod/reindex'
+    "${SOUNDBOARD_API_URL}/reindex"
 }
 
 list() {
@@ -46,7 +46,7 @@ upload_youtube() {
   local url=$2
   FILE=$(mktemp /tmp/soundboard.XXXX)
   youtube-dl -o $FILE $2
-  upload $name $FILE
+  upload $name $FILE.mp4
 }
 
 upload() {
@@ -66,6 +66,9 @@ upload() {
     -H "Content-Type: ${ContentType}" \
     -T $file \
     ${URL}
+
+  echo "Uploaded $file to ${SOUNDBOARD_MEDIA_BASEURL}/$name"
+  reindex
 }
 
 redirect() {

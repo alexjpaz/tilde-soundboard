@@ -89,6 +89,8 @@ redirect() {
     -H "Content-Type: text/plain" \
     --data ${redirectUrl} \
     ${URL}
+
+  reindex
 }
 
 

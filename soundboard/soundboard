@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 CMD=$1
 
@@ -26,7 +26,7 @@ _requires_api_key() {
 
 reindex() {
   _requires_api_key
-  curl -X POST \
+  curl -X PUT \
     -H "x-api-key:${SOUNDBOARD_API_KEY}" \
     "${SOUNDBOARD_API_URL}/reindex"
 }

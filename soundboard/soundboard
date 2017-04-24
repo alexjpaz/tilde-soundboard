@@ -145,7 +145,7 @@ if args.update:
 
 if args.random:
   import random
-  key = random.choice(sounds.keys())
+  key = random.choice(list(sounds.keys()))
   play(key, sounds[key])
 
 if args.name:
